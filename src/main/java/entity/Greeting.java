@@ -3,15 +3,14 @@ package entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
-@Getter
 @Setter
+@Getter
 @Entity
-@Table(name = "Greeting")
-public class Greeter {
+@Table(name = "GREETING")
+public class Greeting {
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -22,4 +21,5 @@ public class Greeter {
 
     @Column(name = "target")
     private String target;
+
 }

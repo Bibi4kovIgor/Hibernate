@@ -1,8 +1,9 @@
 package main;
 
-import entity.Greeter;
+import entity.Greeting;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import static utils.HibernateSessionFactoryUtil.getSessionFactory;
 
@@ -13,20 +14,26 @@ public class Application {
     }
 
     private static void save() {
-        final Greeter greeterJpa = new Greeter();
-        greeterJpa.setGreeting("Bye");
-        greeterJpa.setTarget("JPA");
+        final Greeting greetingJpa = getGreeting("Bye", "JPA");
 
-        final Greeter greeterHibernate = new Greeter();
-        greeterJpa.setGreeting("Hello");
-        greeterJpa.setTarget("Hibernate");
+        final Greeting greetingHibernate = getGreeting("Hello", "Hibernate");
+
+        final Greeting greetingTest = getGreeting("Test", "Test");
 
         final SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.persist(greeterJpa);
-        session.persist(greeterHibernate);
+        session.persist(greetingHibernate);
+        session.persist(greetingJpa);
+        session.persist(greetingTest);
         session.getTransaction().commit();
         session.close();
+    }
+
+    private static Greeting getGreeting(String Bye, String JPA) {
+        final Greeting greetingJpa = new Greeting();
+        greetingJpa.setGreeting(Bye);
+        greetingJpa.setTarget(JPA);
+        return greetingJpa;
     }
 }
