@@ -25,6 +25,4 @@ public class GreeterEntity implements Serializable, MyEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "greeter")
     private Set<GreetingEntity> greetings = new HashSet<>();
 
-
-
 }
