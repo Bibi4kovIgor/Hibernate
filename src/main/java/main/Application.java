@@ -1,9 +1,12 @@
 package main;
 
-import entity.Greeting;
+import entity.GreetingEntity;
+import entity.MyEntity;
+import entity.GreeterEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+
+import java.util.Set;
 
 import static utils.HibernateSessionFactoryUtil.getSessionFactory;
 
@@ -14,26 +17,39 @@ public class Application {
     }
 
     private static void save() {
-        final Greeting greetingJpa = getGreeting("Bye", "JPA");
 
-        final Greeting greetingHibernate = getGreeting("Hello", "Hibernate");
+        final GreeterEntity greeter = new GreeterEntity();
+        greeter.setName("Ihor");
 
-        final Greeting greetingTest = getGreeting("Test", "Test");
+        final GreetingEntity greetingEntityJpa = new GreetingEntity();
+        greetingEntityJpa.setGreeting("Hello JPA");
+        greetingEntityJpa.setTarget("JPA");
+        greetingEntityJpa.setGreeter(greeter);
+
+        final GreetingEntity greetingEntityHibernate = new GreetingEntity();
+        greetingEntityHibernate.setGreeting("Hello Hibernate!");
+        greetingEntityHibernate.setTarget("Hibernate");
+        greetingEntityHibernate.setGreeter(greeter);
+
+        final GreetingEntity greetingEntityTest = new GreetingEntity();
+        greetingEntityTest.setGreeting("Hello test!");
+        greetingEntityTest.setTarget("Test");
+        greetingEntityTest.setGreeter(greeter);
 
         final SessionFactory sessionFactory = getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.persist(greetingHibernate);
-        session.persist(greetingJpa);
-        session.persist(greetingTest);
+
+        session.persist(greeter);
+        session.persist(greetingEntityHibernate);
+        session.persist(greetingEntityJpa);
+        session.persist(greetingEntityTest);
+
         session.getTransaction().commit();
         session.close();
     }
 
-    private static Greeting getGreeting(String Bye, String JPA) {
-        final Greeting greetingJpa = new Greeting();
-        greetingJpa.setGreeting(Bye);
-        greetingJpa.setTarget(JPA);
-        return greetingJpa;
-    }
+
+
+
 }
