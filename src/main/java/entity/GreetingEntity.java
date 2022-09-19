@@ -23,8 +23,17 @@ public class GreetingEntity implements Serializable, MyEntity {
     @Column(name = "target")
     private String target;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.REMOVE,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    @JoinColumn(name = "greet_responder_id")
+    private GreetResponderEntity greetResponder;
+
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "greeter_id")
     private GreeterEntity greeter;
 
+    public String toString() {
+        return "GreetingEntity(identifier=" + this.getIdentifier() + ", greeting=" + this.getGreeting() + ", target=" + this.getTarget() +  ")";
+    }
 }

@@ -9,6 +9,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "selectAllGreets",
+                query = "select p from GreeterEntity p where name = :name"
+        )
+})
+
 @Getter
 @Setter
 @Entity
@@ -25,4 +32,7 @@ public class GreeterEntity implements Serializable, MyEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "greeter")
     private Set<GreetingEntity> greetings = new HashSet<>();
 
+    public String toString() {
+        return "GreeterEntity(identifier=" + this.getIdentifier() + ", name=" + this.getName() + ")";
+    }
 }
